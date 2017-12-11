@@ -42,12 +42,12 @@ function Awake(){
 	//print((playerActual == 0)+" "+estado);
 	if(playerActual == 0 && estado == 0){
 		print("raise dif");
-		dificultad_aux=5-parseInt((PlayerPrefs.GetFloat("tiempo")*100/PlayerPrefs.GetFloat("tiempoInicial"))/20);
-		PlayerPrefs.SetInt("dificultadTiempo",5-parseInt((PlayerPrefs.GetFloat("tiempo")*100/PlayerPrefs.GetFloat("tiempoInicial"))/20));
+		//dificultad_aux=5-parseInt((PlayerPrefs.GetFloat("tiempo")*100/PlayerPrefs.GetFloat("tiempoInicial"))/20);
+		//PlayerPrefs.SetInt("dificultadTiempo",5-parseInt((PlayerPrefs.GetFloat("tiempo")*100/PlayerPrefs.GetFloat("tiempoInicial"))/20));
 	}
 
 	dificultad=PlayerPrefs.GetInt("dificultad");
-	dificultad_aux=PlayerPrefs.GetInt("dificultadTiempo");
+	//dificultad_aux=PlayerPrefs.GetInt("dificultadTiempo");
 	dificultad=Mathf.Max(dificultad, dificultad_aux);
 	switch(dificultad){
 		case 1: nLetras=4; break;
