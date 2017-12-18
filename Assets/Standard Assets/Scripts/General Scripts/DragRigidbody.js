@@ -41,6 +41,8 @@ function Update ()
 	}
 	else
 	{
+		anchor = hit.rigidbody.transform.position;
+		anchor = springJoint.transform.InverseTransformPoint(anchor);
 		springJoint.anchor = Vector3.zero;
 	}
 	
