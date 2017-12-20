@@ -17,7 +17,7 @@ function Awake(){
 }
 function OnGUI(){
 
-				Application.LoadLevel(escena);
+				//Application.LoadLevel(escena);
 
 }
 function Update () {
