@@ -33,6 +33,10 @@ var tileVacio:Transform;
 var colores:Color[];
 var dificultad_aux:int=0;
 
+var panelPause:GameObject;
+var soundOn:GameObject;
+var soundOff:GameObject;
+
 function Awake(){
 	if(Screen.width<800){ 
 		botonSize=45;
@@ -60,7 +64,7 @@ function Awake(){
 	palabra=new Array(nLetras);
 	tiles = new Transform[nLetras];
 	for(var i:int = 0; i < tiles.Length; i++){
-		tiles[i] = Instantiate(tileVacio, Vector3((i - nLetras / 2) * 0.23, 0.4, 0), Quaternion.identity);
+		tiles[i] = Instantiate(tileVacio, Vector3((i - nLetras / 2) * 0.23, 0.4, 0.5), Quaternion.identity);
 	}
 	bombaComp=bomba.GetComponent("BombaNueva");
 	PlayerPrefs.SetString("palabra", "");
@@ -69,7 +73,35 @@ function Awake(){
 	players=PlayerPrefs.GetInt("nPlayers");
 	cambioPlayer();
 	colorear();
-}
+
+	soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
+	soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
+
+	AudioListener.volume = 1f * PlayerPrefs.GetInt("sound", 0);
+	}
+
+	function soundToggle()
+	{
+	    if (PlayerPrefs.GetInt("sound", 1) == 1)
+	        PlayerPrefs.SetInt("sound", 0);
+	    else
+	        PlayerPrefs.SetInt("sound", 1);
+	    soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
+	    soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
+	    AudioListener.volume = 1f * PlayerPrefs.GetInt("sound", 0);
+	}
+
+	function pause(){
+	    print("pause");
+	    if(Time.timeScale < 0.5){
+	        Time.timeScale = 1f;
+	        panelPause.SetActive(false);
+	    }
+	    else{
+	        panelPause.SetActive(true);
+	        Time.timeScale = 0f;
+	    }
+	}
 
 function colorear(){
 	gameObject.SendMessage("setPlayer", playerActual);
@@ -183,7 +215,10 @@ function cambioPlayer(){
 }
 
 function Update () {
-	//cambioPlayer();
+    //cambioPlayer();
+    if (Input.GetKey(KeyCode.Escape)){
+        pause();
+    }
 }
 
 function listo(){
@@ -214,7 +249,7 @@ function tecla(t:String){
 	if(indice<nLetras){
 		palabra[indice]=t;
 		palabraAux="";
-		var l:GameObject = Instantiate(tile, Vector3((indice - nLetras / 2) * 0.23, 0.4, 0), Quaternion.identity);
+		var l:GameObject = Instantiate(tile, Vector3((indice - nLetras / 2) * 0.23, 0.4, 0.5), Quaternion.identity);
 		l.SendMessage("setLetra", t);
 		tiles[indice] = l.transform;
 		indice++;
@@ -234,6 +269,15 @@ function yes(){
 function aint(){
 	PlayerPrefs.SetFloat("tiempo",bombaComp.tiempo);
 	Application.LoadLevel(Application.loadedLevelName);
+}
+
+function toTitleScreen(){
+    Time.timeScale = 1;
+    Application.LoadLevel("Titulo");	
+}
+
+function exitGame(){
+    Application.Quit();
 }
 
 function letraQ(){ tecla("Q"); }

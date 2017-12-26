@@ -27,9 +27,14 @@ public class Titulo : MonoBehaviour {
 	public UICheckbox[] playerCheckbox;
 	
 	public TweenPosition panelRemainder;
-	
-	// Use this for initialization
-	void Start () {
+
+    public GameObject soundOn;
+    public GameObject soundOff;
+
+
+    // Use this for initialization
+    void Start () {
+        //PlayerPrefs.DeleteAll();
 		GameObject m = GameObject.FindGameObjectWithTag("musica");
 		if(m!=null) Destroy (m);
 		//REMAINDER
@@ -43,7 +48,23 @@ public class Titulo : MonoBehaviour {
 		for(int i = 0; i < playerInput.Length; i++){
 			playerInput[i].text = PlayerPrefs.GetString("player"+(i+1), "Player "+(i+1));	
 		}
-	}
+        if (!PlayerPrefs.HasKey("sound")) PlayerPrefs.SetInt("sound", 1);
+        soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
+        soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
+
+        AudioListener.volume = 1f * PlayerPrefs.GetInt("sound", 0);
+    }
+
+    public void soundToggle()
+    {
+        if (PlayerPrefs.GetInt("sound", 1) == 1)
+            PlayerPrefs.SetInt("sound", 0);
+        else
+            PlayerPrefs.SetInt("sound", 1);
+        soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
+        soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
+        AudioListener.volume = 1f * PlayerPrefs.GetInt("sound", 0);
+    }
 	
 	void OnLetrasChange(){
 		letrasTexto.text = "" + (4 + 4 * (letrasSlider.sliderValue));
@@ -139,14 +160,14 @@ public class Titulo : MonoBehaviour {
 		PlayerPrefs.SetInt("dificultad", (int)(1 + 4 * (letrasSlider.sliderValue)));
 		PlayerPrefs.SetFloat("tiempo", float.Parse(tiempoTexto.text));
 		PlayerPrefs.SetFloat("tiempoInicial",float.Parse(tiempoTexto.text));
-		Application.LoadLevel("Tutorial");
+        Instantiate(musicaJuego);
+        Application.LoadLevel("Tutorial");
 		
 		/*Playtomic.Log.Play();
 		Playtomic.Log.LevelAverageMetric("tiempo", "juego", double.Parse(tiempoTexto.text));
 		Playtomic.Log.LevelAverageMetric("players", "juego", players);
 		Playtomic.Log.LevelAverageMetric("letras", "juego", 4 + 4 * letrasSlider.sliderValue);*/
 			
-		Instantiate(musicaJuego);
 	}
 	
 }

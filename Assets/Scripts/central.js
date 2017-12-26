@@ -8,6 +8,12 @@ var botonSize:int=80;
 var playerLabel:GameObject;
 var palabraLabel:GameObject;
 
+var panelPause:GameObject;
+
+
+var soundOn:GameObject;
+var soundOff:GameObject;
+
 function Awake(){
 	if(Screen.width<800){ 
 		botonSize=50;
@@ -20,6 +26,34 @@ function Awake(){
 	playerLabel.SendMessage("setTexto", PlayerPrefs.GetString("player"+(playerActual+1)));
 	palabraLabel.SendMessage("setTexto", pal);
 	colorear();
+    
+	soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
+	soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
+
+	AudioListener.volume = 1f * PlayerPrefs.GetInt("sound", 0);
+}
+
+function soundToggle()
+{
+    if (PlayerPrefs.GetInt("sound", 1) == 1)
+        PlayerPrefs.SetInt("sound", 0);
+    else
+        PlayerPrefs.SetInt("sound", 1);
+    soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
+    soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
+    AudioListener.volume = 1f * PlayerPrefs.GetInt("sound", 0);
+}
+
+function pause(){
+    print("pause");
+    if(Time.timeScale < 0.5){
+        Time.timeScale = 1;
+        panelPause.SetActive(false);
+    }
+    else{
+        panelPause.SetActive(true);
+        Time.timeScale = 0;
+    }
 }
 
 function colorear(){
@@ -68,5 +102,17 @@ function reset(){
 	Application.LoadLevel(Application.loadedLevelName);	
 }
 
+function toTitleScreen(){
+    Time.timeScale = 1;
+    Application.LoadLevel("Titulo");	
+}
+
+function exitGame(){
+    Application.Quit();
+}
+
 function Update () {
+        if (Input.GetKey(KeyCode.Escape)){
+            pause();
+        }
 }

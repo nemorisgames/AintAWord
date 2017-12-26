@@ -1,13 +1,15 @@
-var m:int=1;
-var mySkin : GUISkin;
+//var m:int=1;
+//var mySkin : GUISkin;
 
 function Awake(){
-	DontDestroyOnLoad (transform.gameObject);	
+    DontDestroyOnLoad (gameObject);	
+    /*
 	m=PlayerPrefs.GetInt("musica", 1);
 	if(m==1)
         GetComponent.<AudioSource>().mute = false;
     else
         GetComponent.<AudioSource>().mute = true;
+        */
 }
 
 function OnGUI(){
@@ -25,5 +27,5 @@ function OnGUI(){
 }
 
 function Update () {
-	if(Application.loadedLevelName=="Boom") Destroy(gameObject);
+    if (Application.loadedLevelName == "Boom" || Application.loadedLevelName == "Titulo") Destroy(gameObject);
 }
