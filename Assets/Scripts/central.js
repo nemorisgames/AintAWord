@@ -14,16 +14,29 @@ var panelPause:GameObject;
 var soundOn:GameObject;
 var soundOff:GameObject;
 
+
+var playersIndex:int[];
+
 function Awake(){
 	if(Screen.width<800){ 
 		botonSize=50;
 		Camera.main.orthographicSize=4.6;
 	}
+
+    
+	var p:String = PlayerPrefs.GetString("playerActives", "");
+	var pAux:String[] = p.Split("|"[0]);
+	playersIndex = new int[pAux.Length];
+	for(var i:int = 0; i < playersIndex.Length; i++){
+	    playersIndex[i] = int.Parse(pAux[i]);
+	    print(playersIndex[i]);
+	}
+
 	bombaComp=bomba.GetComponent("BombaNueva");	
 	pal=PlayerPrefs.GetString("palabra");
 	playerActual=PlayerPrefs.GetInt("playerActual");
 	palabra=new String[pal.Length];
-	playerLabel.SendMessage("setTexto", PlayerPrefs.GetString("player"+(playerActual+1)));
+	playerLabel.SendMessage("setTexto", PlayerPrefs.GetString("player"+(playersIndex[playerActual]+1)));
 	palabraLabel.SendMessage("setTexto", pal);
 	colorear();
     

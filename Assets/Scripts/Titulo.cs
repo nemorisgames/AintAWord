@@ -149,13 +149,18 @@ public class Titulo : MonoBehaviour {
 	
 	void juegoComenzar(){
 		int players = 0;
+        string playersActives = "";
 		for(int i = 0; i < playerCheckbox.Length; i++){
 			if(playerCheckbox[i].isChecked){
 				players++;
 				PlayerPrefs.SetString("player"+(i+1), playerInput[i].text==""?"Player "+(i+1):playerInput[i].text);
-			}
+                playersActives += "" + i + "|";
+            }
 		}
-		PlayerPrefs.SetInt("nPlayers",players);
+        playersActives = playersActives.Substring(0, playersActives.Length - 1);
+        print(playersActives);
+        PlayerPrefs.SetString("playerActives", playersActives);
+        PlayerPrefs.SetInt("nPlayers",players);
 		PlayerPrefs.SetInt("playerActual",0);
 		PlayerPrefs.SetInt("dificultad", (int)(1 + 4 * (letrasSlider.sliderValue)));
 		PlayerPrefs.SetFloat("tiempo", float.Parse(tiempoTexto.text));

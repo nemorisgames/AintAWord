@@ -37,11 +37,22 @@ var panelPause:GameObject;
 var soundOn:GameObject;
 var soundOff:GameObject;
 
+var playersIndex:int[];
+
 function Awake(){
 	if(Screen.width<800){ 
 		botonSize=45;
 		mySkin2.font=fontChica;
 	}
+    
+	var p:String = PlayerPrefs.GetString("playerActives", "");
+	var pAux:String[] = p.Split("|"[0]);
+	playersIndex = new int[pAux.Length];
+	for(var i:int = 0; i < playersIndex.Length; i++){
+	    playersIndex[i] = int.Parse(pAux[i]);
+	    print(playersIndex[i]);
+	}
+
 	playerActual=PlayerPrefs.GetInt("playerActual");
 	//print((playerActual == 0)+" "+estado);
 	if(playerActual == 0 && estado == 0){
@@ -63,7 +74,7 @@ function Awake(){
 	}
 	palabra=new Array(nLetras);
 	tiles = new Transform[nLetras];
-	for(var i:int = 0; i < tiles.Length; i++){
+	for(i = 0; i < tiles.Length; i++){
 		tiles[i] = Instantiate(tileVacio, Vector3((i - nLetras / 2) * 0.23, 0.4, 0.5), Quaternion.identity);
 	}
 	bombaComp=bomba.GetComponent("BombaNueva");
@@ -73,6 +84,7 @@ function Awake(){
 	players=PlayerPrefs.GetInt("nPlayers");
 	cambioPlayer();
 	colorear();
+
 
 	soundOn.SetActive(PlayerPrefs.GetInt("sound", 1) == 1);
 	soundOff.SetActive(PlayerPrefs.GetInt("sound", 1) == 0);
@@ -208,7 +220,7 @@ function cambioPlayer(){
 	//var p_g=p.gameObject;
 	//p_g.SendMessage("setPlayer", playerActual);
 	//print((playerActual+1)+" "+PlayerPrefs.GetInt("nPlayers"));
-	playerLabel.SendMessage("setTexto", PlayerPrefs.GetString("player"+(playerActual+1)));
+	playerLabel.SendMessage("setTexto", PlayerPrefs.GetString("player"+(playersIndex[playerActual]+1)));
 	colorear();
 	print("cambiado!");
 	pausar=false;
