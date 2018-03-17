@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class cargaInicio : MonoBehaviour {
 	public string escenaSiguiente;
@@ -9,12 +10,7 @@ public class cargaInicio : MonoBehaviour {
 		PlayerPrefs.SetInt("ejecuciones", PlayerPrefs.GetInt("ejecuciones", 0) + 1);
 		
 #if UNITY_IPHONE
-		
-	if(iPhone.generation == iPhoneGeneration.iPad1Gen || 
-	   iPhone.generation == iPhoneGeneration.iPhone ||
-	   iPhone.generation == iPhoneGeneration.iPhone3G ||
-	   iPhone.generation == iPhoneGeneration.iPhone3GS)
-			QualitySettings.SetQualityLevel(1);
+
 #endif
 	}
 	

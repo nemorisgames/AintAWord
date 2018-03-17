@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class publicidad : MonoBehaviour {
-	public bool activated = true;
+	/*public bool activated = true;
 	public bool testmode = true;
 	public string MdotMIdApple = "d23c19605b6a7763e46a22350ec1a57b";
 	public string MdotMIdAndroid = "3b3738feda292ff507601d2368515df7";
@@ -182,5 +182,5 @@ public class publicidad : MonoBehaviour {
 	
 	void OnGUI(){
 		//GUI.Box (new Rect(100,100,100,30), "ejecuciones "+PlayerPrefs.GetInt("ejecuciones", 0));	
-	}
+	}*/
 }
